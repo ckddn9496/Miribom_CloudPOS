@@ -1,11 +1,11 @@
 package com.example.cloudpos.fragments;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -25,6 +25,8 @@ import java.util.ArrayList;
 
 public class FragmentWaiting extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+    private final static String TAG = "FragmentWaiting>>>";
+
     GridView lineGridView;
     LineGridAdapter lineGridAdapter = new LineGridAdapter();
     Button smsSenderBtn;
@@ -33,6 +35,8 @@ public class FragmentWaiting extends Fragment implements View.OnClickListener, A
     DatabaseReference reference = database.getReference("server/phoneNo");
 
     ArrayList line = LineQueue.getInstance().line;
+
+    private int position;
 
     public FragmentWaiting(){
         //default public constructor
@@ -58,21 +62,15 @@ public class FragmentWaiting extends Fragment implements View.OnClickListener, A
 
 
         return  waitView;
-
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.sendTextBtn: //알림 문자 보내기
-                Toast.makeText(getContext(), String.valueOf(lineGridView.getCheckedItemPosition()), Toast.LENGTH_SHORT).show();
-
-
-
+                reference.setValue(LineQueue.getInstance().line.get(position).getPhoneNo());
                 break;
         }
-
     }
 
     private void sendSMS(int position){
@@ -93,7 +91,6 @@ public class FragmentWaiting extends Fragment implements View.OnClickListener, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String phoneNo = LineQueue.getInstance().line.get(position).getPhoneNo();
-        reference.setValue(phoneNo);
+        this.position = position;
     }
 }

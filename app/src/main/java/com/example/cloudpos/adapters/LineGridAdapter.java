@@ -18,6 +18,8 @@ import java.util.Date;
 
 public class LineGridAdapter extends BaseAdapter {
 
+    private final static String TAG = "LineGridAdapter>>";
+
     LayoutInflater inflater;
     Activity act;
     private Context context;
@@ -72,21 +74,19 @@ public class LineGridAdapter extends BaseAdapter {
     private String calcWaitingTime(String starter) throws ParseException {
         String waitingTime;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date startDay = new Date();
         Date now = new Date();
 
         //웨이팅 시작 시간
         startDay = sdf.parse(starter);
+
         long startTime = startDay.getTime();
 
         //현재 시간
         now = sdf.parse(sdf.format(now));
         long nowTime = now.getTime();
-
         long minute = (nowTime - startTime)/60000;
-
-
 
         return String.valueOf(minute);
     }

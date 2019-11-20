@@ -10,7 +10,7 @@ public class Table {
     private String tableNo;
     private boolean isTaken;
 
-    public Table(String no, boolean isTaken){
+    public Table(String no, boolean isTaken) {
         tableNo = no;
         this.isTaken = isTaken;
     }
@@ -20,13 +20,27 @@ public class Table {
         this.isTaken = data.getInt("istaken") == 1 ? true : false;
     }
 
-    public void setTableNo(String no){tableNo = no;}
-    public void setIsTaken(boolean isTaken){this.isTaken = isTaken;}
+    public void setTableNo(String no) {
+        tableNo = no;
+    }
 
-    public String getTableNo(){return this.tableNo;}
-    public boolean getisTaken(){return this.isTaken;}
+    public void setIsTaken(int isTaken) {
+        this.isTaken = isTaken == 1 ? true : false;
+    }
+    public void setIsTaken(boolean isTaken) {
+        this.isTaken = isTaken;
+    }
 
+    public String getTableNo() {
+        return this.tableNo;
+    }
 
+    public boolean getisTaken() {
+        return this.isTaken;
+    }
 
-
+    @Override
+    public String toString() {
+        return this.tableNo + ":" + this.isTaken;
+    }
 }

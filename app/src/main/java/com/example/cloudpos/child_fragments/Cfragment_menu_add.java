@@ -5,20 +5,16 @@ package com.example.cloudpos.child_fragments;
 //implemented by Yang Insu
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,8 +27,6 @@ import com.example.cloudpos.R;
 import com.example.cloudpos.connections.InsertMenuTask;
 import com.example.cloudpos.data.MenuItem;
 import com.example.cloudpos.data.MenuList;
-import com.example.cloudpos.data.Restaurant;
-import com.example.cloudpos.fragments.FragmentMenu;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -156,8 +150,6 @@ public class Cfragment_menu_add extends Fragment implements View.OnClickListener
 
         if (v.getId() == R.id.menu_add_cbtn) {
             addMenu();
-//            addUpdater.update(addedMenuItem); //실제로 Singleton MenuList에 넣어주는거는 update 함수가 하니까 FragmentMenu
-            // TODO: 여기에 addedMenuItem 을 서버에 등록해주면 된다 => addedMenuItem
 
         }
 
@@ -166,6 +158,12 @@ public class Cfragment_menu_add extends Fragment implements View.OnClickListener
     public void addMenu() {
         String newMenuName = menu_name_ET.getText().toString();
         String newMenuPrice = menu_price_ET.getText().toString();
+
+        if (newMenuName.equals("") || newMenuPrice.equals("") || photo == null) {
+            Toast.makeText(getContext(), "등록을 위해선 상품 이미지, 상품명과 상품 가격이 필요합니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         int newMenuNo = MenuList.getInstance().menuItemArrayList.size() + 1;
 
         MenuItem newMenuItem = new MenuItem(String.valueOf(newMenuNo), String.valueOf(newMenuNo), newMenuName, newMenuPrice, photo);
@@ -173,6 +171,10 @@ public class Cfragment_menu_add extends Fragment implements View.OnClickListener
 
         InsertMenuTask insertMenuTask = new InsertMenuTask(newMenuItem, absolutePath);
         insertMenuTask.insertMenu();
+
+        menu_name_ET.setText("");
+        menu_price_ET.setText("");
+        menuImage.setImageResource(R.drawable.image_loading);
     }
 
 

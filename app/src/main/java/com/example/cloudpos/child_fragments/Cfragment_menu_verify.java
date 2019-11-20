@@ -3,15 +3,14 @@ package com.example.cloudpos.child_fragments;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.cloudpos.R;
 import com.example.cloudpos.data.MenuItem;
 import com.example.cloudpos.data.MenuList;
@@ -28,6 +27,7 @@ public class Cfragment_menu_verify extends Fragment implements FragmentMenu.Tran
     String menuNo;
     String menuCode;
     String menuName;
+    String menuImageUrl;
     String menuPrice;
 
     private int index;
@@ -69,8 +69,9 @@ public class Cfragment_menu_verify extends Fragment implements FragmentMenu.Tran
 
         menuImage = menuList.get(index).getMenuImage();
 
-        menuImageView.setImageBitmap(menuImage);
-
+        Glide.with(getContext()).load(menuImageUrl).into(menuImageView);
+        if (menuImage != null)
+            menuImageView.setImageBitmap(menuImage);
 
         return fv;
     }
@@ -81,7 +82,7 @@ public class Cfragment_menu_verify extends Fragment implements FragmentMenu.Tran
         menuCode = bundle.getString("menuCode");
         menuName = bundle.getString("menuName");
         menuPrice = bundle.getString("menuPrice");
-
+        menuImageUrl = bundle.getString("menuImageUrl");
         index = bundle.getInt("index");
 
 

@@ -3,8 +3,6 @@ package com.example.cloudpos.data;
 /*implemented by Yang Insu*/
 //영수증 한 줄
 
-import android.os.Build;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +18,7 @@ public class ReceiptLine {
     private int totPrice; //총 가격
     private String menuName;
 
-    public ReceiptLine(MenuItem menuItem, int itemNo){
+    public ReceiptLine(MenuItem menuItem, int itemNo) {
 
         this.menuItem = menuItem;
         this.itemNo = itemNo;
@@ -34,7 +32,7 @@ public class ReceiptLine {
         this.recNo = String.valueOf(recNo);
 
         int menuNo = data.getInt("menu_no");
-        ArrayList<MenuItem> menuItems =  MenuList.getInstance().menuItemArrayList;
+        ArrayList<MenuItem> menuItems = MenuList.getInstance().menuItemArrayList;
         for (MenuItem menuItem : menuItems) {
             if (menuItem.getMenuNo().equals(String.valueOf(menuNo))) {
                 this.menuItem = menuItem;
@@ -49,21 +47,33 @@ public class ReceiptLine {
         this.menuName = this.menuItem.getMenuName();
     }
 
-    public void incRecNo(){itemNo++;}
+    public void incRecNo() {
+        itemNo++;
+        totPrice += onePrice;
+    }
 
-    public String getRecNo(){
+    public void decRecNo() {
+        itemNo--;
+        totPrice -= onePrice;
+    }
+
+    public String getRecNo() {
         return this.recNo;
     }
 
-    public int getItemNo(){
+    public int getItemNo() {
         return this.itemNo;
     }
 
-    public String getMenuName() {return menuName;}
+    public String getMenuName() {
+        return menuName;
+    }
+
     public int getOnePrice() {
         return onePrice;
     }
-    public int getTotPrice(){
+
+    public int getTotPrice() {
         return totPrice;
     }
 
@@ -79,4 +89,6 @@ public class ReceiptLine {
     public String toString() {
         return menuName + ", " + itemNo + " 개: " + totPrice + " 원 ";
     }
+
+
 }

@@ -13,14 +13,14 @@ import android.widget.TextView;
 import com.example.cloudpos.R;
 import com.example.cloudpos.data.Receipt;
 import com.example.cloudpos.data.ReceiptLine;
-import com.example.cloudpos.data.ReceiptList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReceiptPartListViewAdapter extends BaseAdapter {
 
-    ArrayList <ReceiptLine> receiptLines = new ArrayList<>();
+    List<ReceiptLine> receiptLines = new ArrayList<>();
 
 
     public ReceiptPartListViewAdapter(Receipt receipt){

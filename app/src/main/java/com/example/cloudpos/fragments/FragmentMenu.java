@@ -1,15 +1,13 @@
 package com.example.cloudpos.fragments;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,7 +108,6 @@ public class FragmentMenu extends Fragment implements View.OnClickListener, Adap
             case R.id.menu_del_btn: //메뉴 삭제 시
 
                 //TODO for Yang: 삭제 2단계 확인하는 Dialog 생성하기
-                //TODO: 여기서 삭제가 반영된 menuList 를 다시 서버랑 동기화 시켜야됨
 
                 Toast.makeText(getContext(), "삭제버튼 누름", Toast.LENGTH_SHORT).show();
                 SparseBooleanArray checkedItems = listview.getCheckedItemPositions();
@@ -141,6 +138,7 @@ public class FragmentMenu extends Fragment implements View.OnClickListener, Adap
         String menuNo = ((MenuItem) adapter.getItem(position)).getMenuNo();
         String menuCode = ((MenuItem) adapter.getItem(position)).getMenuCode();
         final String menuName = ((MenuItem) adapter.getItem(position)).getMenuName();
+        String menuImageUrl = ((MenuItem) adapter.getItem(position)).getImageUrl();
         String menuPrice = ((MenuItem) adapter.getItem(position)).getMenuPrice();
 
         Bundle bundle = new Bundle(); //번들 안에 상품에 대한 정보를 넣고
@@ -148,6 +146,7 @@ public class FragmentMenu extends Fragment implements View.OnClickListener, Adap
         bundle.putString("menuCode", menuCode);
         bundle.putString("menuName", menuName);
         bundle.putString("menuPrice", menuPrice);
+        bundle.putString("menuImageUrl", menuImageUrl);
         bundle.putInt("index", position);
 
 

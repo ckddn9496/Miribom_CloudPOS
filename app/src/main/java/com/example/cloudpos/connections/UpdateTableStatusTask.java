@@ -1,19 +1,13 @@
 package com.example.cloudpos.connections;
 
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.cloudpos.adapters.RecLineListViewAdapter;
-import com.example.cloudpos.data.Receipt;
-import com.example.cloudpos.data.ReceiptLine;
-import com.example.cloudpos.data.ReceiptList;
 import com.example.cloudpos.data.Restaurant;
-import com.example.cloudpos.data.TableStatusManager;
+import com.example.cloudpos.data.TableList;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,20 +20,19 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
-public class InsertReceiptTask extends AsyncTask<Void, Void, JSONObject> {
+public class UpdateTableStatusTask extends AsyncTask<Void, Void, JSONObject> {
+    private final String TAG = "UpdateTableStatusTask>";
+    private final static String UPDATE_TABLE_STATUS_TASK_URL = MiribomInfo.ipAddress + "/places/update";
 
-    private final String TAG = "InsertReceiptTask>>>";
-    private final static String SIGN_UP_TASK_URL = MiribomInfo.ipAddress + "/receipts/create";
+    private int tableNo;
+    private int isTaken;
 
-    private Receipt receipt;
-    private RecLineListViewAdapter recLineListViewAdapter;
     private Context context;
 
-    public InsertReceiptTask(Receipt receipt, RecLineListViewAdapter recLineListViewAdapter, Context context) {
-        this.receipt = receipt;
-        this.recLineListViewAdapter = recLineListViewAdapter;
+    public UpdateTableStatusTask(int tableNo, int isTaken, Context context) {
+        this.tableNo = tableNo;
+        this.isTaken = isTaken;
         this.context = context;
     }
 
@@ -48,26 +41,13 @@ public class InsertReceiptTask extends AsyncTask<Void, Void, JSONObject> {
         try {
             JSONObject postData = new JSONObject();
             postData.put("r_no", Restaurant.getInstance().getRegisterNo());
-            postData.put("p_no", receipt.getTableNo());
-            postData.put("time", receipt.getTime());
-            postData.put("type", receipt.getRecType());
-            JSONArray receiptLinesArray = new JSONArray();
-            List<ReceiptLine> receiptLines = receipt.getReceiptLines();
-            for (int i = 0; i < receiptLines.size(); i++) {
-                ReceiptLine receiptLine = receiptLines.get(i);
-                JSONObject receiptLineObject = new JSONObject();
-                receiptLineObject.put("menu_no", receiptLine.getMenuItem().getMenuNo());
-                receiptLineObject.put("count", receiptLine.getItemNo());
-                receiptLineObject.put("price", receiptLine.getTotPrice());
-                receiptLinesArray.put(receiptLineObject);
-            }
-            postData.put("receiptline", receiptLinesArray);
-
+            postData.put("no", tableNo);
+            postData.put("istaken", isTaken);
 
             HttpURLConnection conn = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(SIGN_UP_TASK_URL);
+                URL url = new URL(UPDATE_TABLE_STATUS_TASK_URL);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Cache-Control", "no-cache");
@@ -101,27 +81,28 @@ public class InsertReceiptTask extends AsyncTask<Void, Void, JSONObject> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return null;
     }
-
 
     @Override
     protected void onPostExecute(JSONObject data) {
         super.onPostExecute(data);
-        Log.d(TAG, "onPostExecute: " + data.toString());
-        try {
-            if (data.getInt("code") == HttpURLConnection.HTTP_OK) {
-                Toast.makeText(context, data.getString("message"), Toast.LENGTH_LONG).show();
-                Log.d(TAG, "onPostExecute: 영수증 생성 완료");
-                receipt.setReceiptNo(data.getInt("receipt_no"));
-                ReceiptList.getInstance().receipts.add(receipt);
-                TableStatusManager.getInstance().removeSelectedTableReceiptLines(receipt.getTableNo());
-                recLineListViewAdapter.notifyDataSetChanged();
-                recLineListViewAdapter.clear();
+        if (data == null) {
+            Toast.makeText(context, "서버로 부터 응답이 없습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+        } else {
+            try {
+                if (data.getInt("code") == HttpURLConnection.HTTP_OK) {
+                    Log.d(TAG, "onPostExecute: 성공");
+                    TableList.getInstance().tableArrayList.get(tableNo - 1).setIsTaken(isTaken);
+                } else {
+                    Toast.makeText(context, data.getString("message"), Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+
     }
+
+
 }

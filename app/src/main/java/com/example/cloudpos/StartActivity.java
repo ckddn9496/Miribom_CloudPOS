@@ -1,8 +1,8 @@
 package com.example.cloudpos;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cloudpos.connections.SignInTask;
+import com.example.cloudpos.data.TableStatusManager;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,14 +35,16 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         emailInputEditText = (EditText) findViewById(R.id.emailInput);
         passwordInputEditText = (EditText) findViewById(R.id.passwordInput);
-        emailInputEditText.setText("이리온");
-        passwordInputEditText.setText("1111");
-//        emailInputEditText.setText("ckddn9496@gmail.com");
-//        passwordInputEditText.setText("password");
+//        emailInputEditText.setText("이리온");
+//        passwordInputEditText.setText("1111");
+        emailInputEditText.setText("ckddn9496@gmail.com");
+        passwordInputEditText.setText("password");
         registerBtn = (Button) findViewById(R.id.registerBtn);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         registerBtn.setOnClickListener(this);
         loginBtn.setOnClickListener(this);
+
+        TableStatusManager.getInstance(getApplicationContext()).read();
     }
 
     @Override

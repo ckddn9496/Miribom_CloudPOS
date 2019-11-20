@@ -5,19 +5,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Receipt {
     private int receiptNo;
 
     private String time;
-    private ArrayList<ReceiptLine> receiptLines = new ArrayList<>();
+    private List<ReceiptLine> receiptLines = new ArrayList<>();
     private int totalPrice;
     private int tableNo;
     private int payType;
     private int recType; //결제인지=0 환불인지=1
     private int originalCode;
 
-    public Receipt(String time, ArrayList<ReceiptLine> receiptLines, int tableNo, int recType) {
+    public Receipt(String time, List<ReceiptLine> receiptLines, int tableNo, int recType) {
         this.time = time;
         this.receiptLines = receiptLines;
         this.tableNo = tableNo;
@@ -72,7 +73,7 @@ public class Receipt {
         recType = type;
     }
 
-    public ArrayList<ReceiptLine> getReceiptLines() {
+    public List<ReceiptLine> getReceiptLines() {
         return this.receiptLines;
     }
 

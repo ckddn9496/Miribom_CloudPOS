@@ -11,6 +11,7 @@ import com.example.cloudpos.data.MenuList;
 import com.example.cloudpos.data.ReceiptList;
 import com.example.cloudpos.data.Restaurant;
 import com.example.cloudpos.data.TableList;
+import com.example.cloudpos.data.TableStatusManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,6 +110,9 @@ public class RestaurantSettingTask extends AsyncTask<Void, Void, JSONObject> {
 
                 JSONArray receipts = data.getJSONArray("receipts");
                 ReceiptList.getInstance().setReceipts(receipts);
+
+                /* 테이블의 주문 내역 상태 불러오기*/
+                TableStatusManager.getInstance().initTableStatus();
 
                 /* Not Use */
 //                JSONArray reservables = data.getJSONArray("reservables");

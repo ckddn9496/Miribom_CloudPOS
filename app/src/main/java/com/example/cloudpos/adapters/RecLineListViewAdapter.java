@@ -1,6 +1,7 @@
 package com.example.cloudpos.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,31 +10,87 @@ import android.widget.TextView;
 
 import com.example.cloudpos.R;
 import com.example.cloudpos.data.ReceiptLine;
+import com.example.cloudpos.data.TableStatusManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /*implemented by Yang Insu*/
 //영수증 라인 찍히는거 보여주는 ListView 어댑터
 
 public class RecLineListViewAdapter extends BaseAdapter {
+    private final static String TAG = "RecLineListViewAdapter>";
 
-    public ArrayList<ReceiptLine> receiptLineArrayList = new ArrayList<>();
+    public int tableNo;
+    public List<ReceiptLine> receiptLineArrayList = new ArrayList<>();
 
-    public void addRecLine(ReceiptLine receiptLine){
-        for(int i = 0;i<receiptLineArrayList.size();i++){
-            if(receiptLine.getMenuName() == receiptLineArrayList.get(i).getMenuName()) {
+    public RecLineListViewAdapter(int tableNo) {
+        this.tableNo = tableNo;
+    }
+
+    public void addRecLine(ReceiptLine receiptLine) {
+        for (int i = 0; i < receiptLineArrayList.size(); i++) {
+            if (receiptLine.getMenuName().equals(receiptLineArrayList.get(i).getMenuName())) {
                 receiptLineArrayList.get(i).incRecNo();
+                TableStatusManager.getInstance().changeStatus(tableNo, receiptLineArrayList);
                 return;
             }
         }
 
-
         receiptLineArrayList.add(receiptLine);
-
-
+        TableStatusManager.getInstance().changeStatus(tableNo, receiptLineArrayList);
     }
 
+    // 테이블을 처음 눌렀을 때
+    public void addRecLines(List<ReceiptLine> receiptLines) {
+        receiptLineArrayList.clear();
+        if (receiptLines != null)
+            receiptLineArrayList.addAll(receiptLines);
+
+        Log.d(TAG, "addRecLines: " + this.receiptLineArrayList);
+    }
+
+    public void increaseSelectedReceiptLine(String menuName) {
+        for (int i = 0; i < receiptLineArrayList.size(); i++) {
+            if (receiptLineArrayList.get(i).getMenuName().equals(menuName)) {
+                receiptLineArrayList.get(i).incRecNo();
+                break;
+            }
+        }
+        TableStatusManager.getInstance().changeStatus(tableNo, receiptLineArrayList);
+    }
+
+    public void decreaseSelectedReceiptLine(String menuName) {
+        for (int i = 0; i < receiptLineArrayList.size(); i++) {
+            if (receiptLineArrayList.get(i).getMenuName().equals(menuName)) {
+                receiptLineArrayList.get(i).decRecNo();
+                break;
+            }
+        }
+        TableStatusManager.getInstance().changeStatus(tableNo, receiptLineArrayList);
+    }
+
+    public void removeReceiptLine(String menuName) {
+        for (int i = 0; i < receiptLineArrayList.size(); i++) {
+            if (receiptLineArrayList.get(i).getMenuName().equals(menuName)) {
+                receiptLineArrayList.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void clear() {
+        this.receiptLineArrayList.clear();
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (ReceiptLine receiptLine: receiptLineArrayList) {
+            totalPrice += receiptLine.getTotPrice();
+        }
+        return totalPrice;
+    }
     @Override
     public int getCount() {
         return receiptLineArrayList.size();
@@ -49,7 +106,7 @@ public class RecLineListViewAdapter extends BaseAdapter {
         return position;
     }
 
-    public void addItem(ReceiptLine receiptLine){ //더 구현 필요
+    public void addItem(ReceiptLine receiptLine) { //더 구현 필요
         receiptLineArrayList.add(receiptLine);
     }
 
@@ -58,9 +115,9 @@ public class RecLineListViewAdapter extends BaseAdapter {
         final int pos = position;
         final Context context = parent.getContext();
 
-        if(convertView == null){
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.receipt_line,parent,false);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.receipt_line, parent, false);
         }
 
         //View 위젯들 연결
@@ -81,4 +138,5 @@ public class RecLineListViewAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 }

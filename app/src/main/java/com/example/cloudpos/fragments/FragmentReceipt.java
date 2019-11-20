@@ -1,13 +1,11 @@
 package com.example.cloudpos.fragments;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -69,13 +67,16 @@ public class FragmentReceipt extends Fragment implements View.OnClickListener, A
             case R.id.receiptCashBtn:
                 break;
             case R.id.receiptReturnBtn: //영수증 환불 부분
-                //TODO: 여기 환불이 반영된 receipt List 를 서버에 갱신
                 int checkedItemIndex = listView.getCheckedItemPosition();
-                Log.d(TAG, "onClick: " + checkedItemIndex);
-                Log.d(TAG, "onClick: " + receiptListViewAdapter.receipts.get(checkedItemIndex));
-                RefundReceiptTask refundReceiptTask = new RefundReceiptTask(receiptListViewAdapter, checkedItemIndex, getContext());
-                refundReceiptTask.execute();
-                receiptListViewAdapter.notifyDataSetChanged();
+                if (checkedItemIndex == AdapterView.INVALID_POSITION) {
+                    Toast.makeText(getContext(), "환불하고자 하는 영수증을 목록에서 선택 후 환불 버튼을 눌러주세요.", Toast.LENGTH_LONG).show();
+                } else if (receiptListViewAdapter.receipts.get(checkedItemIndex).getRecType() == ReceiptList.RECEIPT_REFUND) {
+                    Toast.makeText(getContext(), "이미 환불 처리가 완료된 영수증 입니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    RefundReceiptTask refundReceiptTask = new RefundReceiptTask(receiptListViewAdapter, checkedItemIndex, getContext());
+                    refundReceiptTask.execute();
+                    receiptListViewAdapter.notifyDataSetChanged();
+                }
 
                 break;
 

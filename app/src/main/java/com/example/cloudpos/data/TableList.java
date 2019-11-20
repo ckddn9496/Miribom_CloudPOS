@@ -13,6 +13,11 @@ import java.util.ArrayList;
 
 public class TableList {
     private static TableList tableList = new TableList();
+
+    public final static int USING = 1;
+    public final static int CLEAR = 0;
+
+
     public ArrayList<Table> tableArrayList = new ArrayList<>();
 
     private TableList(){

@@ -1,36 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:weightSum="4"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
 
-    <Button
-        android:id="@+id/def_pay_delall"
-        android:text="전체취소"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+    <!-- put whatever you want -->
 
-    <Button
-        android:id="@+id/def_pay_delsel"
-        android:text="선택취소"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
-    <Button
-        android:id="@+id/def_pay_dec"
-        android:text="-"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/def_pay_delall"
+            android:layout_margin="3dp"
+            android:background="@drawable/background"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="전 체 취 소" />
 
-    <Button
-        android:id="@+id/def_pay_inc"
-        android:text="+"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        <Button
+            android:id="@+id/def_pay_delsel"
+            android:layout_margin="3dp"
+            android:background="@drawable/background"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="선택취소" />
+
+        <Button
+            android:id="@+id/def_pay_dec"
+            android:layout_margin="3dp"
+            android:textSize="30dp"
+            android:background="@drawable/background"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/def_pay_inc"
+            android:layout_margin="3dp"
+            android:textSize="30dp"
+            android:background="@drawable/background"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="+" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -8,25 +8,68 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- 화면 상단에 음식점 정보들이 들어가는 파트 -->
-    <LinearLayout
-        android:id="@+id/infoLayout"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+        <!-- 화면 상단에 음식점 정보들이 들어가는 파트 -->
+        <LinearLayout
+            android:id="@+id/infoLayout"
+            android:background="@drawable/headerbackground"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/restName"
-            android:text="미리봄 테스트 식당"
-            android:textSize="50dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/restauranticon2"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
+
+                    <TextView
+                        android:id="@+id/restName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/scdream2"
+                        android:text="미리봄 테스트 식당"
+                        android:textStyle="bold"
+                        android:textSize="40dp"
+                        android:textColor="#FFFFFF" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <include layout="@layout/user_info_layout"
+                        android:gravity="right" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
 
     <!-- 테이블 레이아웃 -->
+
+
     <LinearLayout
         android:id="@+id/belowLayout"
         android:weightSum="10"
@@ -36,69 +79,101 @@
         android:layout_height="0dp"
         >
 
+
         <FrameLayout
-            android:background="@drawable/edge"
             android:id="@+id/fragment_container"
-            android:layout_weight="9"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </FrameLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"></FrameLayout>
 
 
         <!-- 테이블 배치도 옆에 있는 탭 리스트 -->
         <LinearLayout
             android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="5"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:weightSum="5">
 
 
             <!-- 시작 화면 -->
             <Button
+                android:layout_marginTop="5dp"
                 android:id="@+id/tab0_default_btn"
-                android:text="시작 화면"
-                android:layout_weight="1"
+                android:background="@drawable/defaultbtn"
+                android:gravity="center|bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="0dp"
+                android:paddingBottom="15dp"
+                android:layout_weight="1"
+                android:textColor="@color/pinkfont"
+                android:textStyle="bold"
+                android:fontFamily="@font/scdream3"
+                android:text="시 작   화 면" />
 
             <!-- 메뉴 관리 버튼 -->
             <Button
                 android:id="@+id/tab1_menu_btn"
-                android:text="메뉴 관리"
-                android:layout_weight="1"
+                android:background="@drawable/menubtn"
+                android:gravity="center|bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textStyle="bold"
+                android:fontFamily="@font/scdream3"
+                android:paddingBottom="15dp"
+                android:textColor="@color/pinkfont"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="메 뉴   관 리" />
 
             <!-- 영수증 관리 버튼 -->
             <Button
                 android:id="@+id/tab2_receipt_btn"
-                android:text="영수증 관리"
-                android:layout_weight="1"
+                android:gravity="center|bottom"
+                android:background="@drawable/receiptbtn"
+                android:textStyle="bold"
+                android:text="영 수 증   관 리"
+                android:fontFamily="@font/scdream3"
+                android:paddingBottom="15dp"
+                android:textColor="@color/pinkfont"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                 />
 
             <!-- 예약 관리 버튼 -->
             <Button
                 android:id="@+id/tab3_reservation_btn"
-                android:text="예약 관리"
-                android:layout_weight="1"
+                android:background="@drawable/waitingbtn"
+                android:textColor="@color/pinkfont"
+                android:paddingBottom="15dp"
+                android:gravity="center|bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:fontFamily="@font/scdream3"
+                android:text="웨 이 팅   관 리" />
 
             <!-- 간단 정산 버튼 -->
+
             <Button
                 android:id="@+id/tab4_calculate_btn"
-                android:text="간단 정산"
-                android:layout_weight="1"
+                android:background="@drawable/calcbtn"
+                android:textColor="@color/pinkfont"
+                android:paddingBottom="15dp"
+                android:gravity="center|bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:fontFamily="@font/scdream3"
+                android:text="간 단   정 산" />
 
 
         </LinearLayout>
 
-        
+
     </LinearLayout>
 
 

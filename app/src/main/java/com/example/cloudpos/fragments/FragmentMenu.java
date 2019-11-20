@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.cloudpos.R;
 import com.example.cloudpos.adapters.MenuListViewAdapter;
 import com.example.cloudpos.child_fragments.Cfragment_menu_add;
-import com.example.cloudpos.child_fragments.Cfragment_menu_edit;
 import com.example.cloudpos.child_fragments.Cfragment_menu_verify;
 import com.example.cloudpos.connections.DeleteMenuTask;
 import com.example.cloudpos.data.MenuItem;
@@ -84,8 +83,6 @@ public class FragmentMenu extends Fragment implements View.OnClickListener, Adap
         menu_add_btn.setOnClickListener(this);
         menu_del_btn = (Button) view1.findViewById(R.id.menu_del_btn);
         menu_del_btn.setOnClickListener(this);
-        menu_edit_btn = (Button) view1.findViewById(R.id.menu_edit_btn);
-        menu_edit_btn.setOnClickListener(this);
 
 
         return view1;
@@ -97,10 +94,6 @@ public class FragmentMenu extends Fragment implements View.OnClickListener, Adap
     public void onClick(View view) {
         Fragment fragment;
         switch (view.getId()) {
-            case R.id.menu_edit_btn: //수정 누르면 여기서 처리
-                fragment = Cfragment_menu_edit.newInstance();
-                setChildFragment(fragment);
-                break;
             case R.id.menu_add_btn: //추가 버튼
                 fragment = Cfragment_menu_add.newInstance();
                 setChildFragment(fragment);

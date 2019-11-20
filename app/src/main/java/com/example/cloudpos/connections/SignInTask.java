@@ -94,7 +94,7 @@ public class SignInTask extends AsyncTask<Void, Void, JSONObject> {
                 Toast.makeText(context, data.getString("message"), Toast.LENGTH_LONG).show();
                 if (data.getInt("code") == HttpURLConnection.HTTP_OK) {
                     if (Restaurant.getInstance().getRegisterNo().equals("")) {
-                        Restaurant.getInstance().setName(data.getString("owner_name"));
+                        Restaurant.getInstance().setOwnerName(data.getString("owner_name"));
                         RestaurantSettingTask restaurantSettingTask = new RestaurantSettingTask(data.getInt("r_no"), context);
                         restaurantSettingTask.execute();
                     } else {

@@ -8,11 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cloudpos.data.LineQueue;
 import com.example.cloudpos.data.MenuItem;
 import com.example.cloudpos.data.MenuList;
+import com.example.cloudpos.data.Restaurant;
 import com.example.cloudpos.data.Slot;
 import com.example.cloudpos.fragments.FragmentCalculate;
 import com.example.cloudpos.fragments.FragmentDefault;
@@ -25,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -38,6 +42,8 @@ import java.util.PriorityQueue;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private final static String TAG = "MainActivity>>>";
+
     /*Fragment flags*/
     private final int DEFAULT_FRAG = 0; //기존 화면: 테이블 배치도
     private final int MENU_FRAG = 1; //메뉴 관리 화면
@@ -47,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /*View Components*/
     private Button defBtn, menuBtn, recBtn, resBtn, calcBtn; //탭에 있는 버튼들
+    private TextView userNameTv;
+    private TextView dateTV;
 
 
     /*받아오는 데이터들*/
@@ -79,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recBtn.setOnClickListener(this);
         resBtn.setOnClickListener(this);
         calcBtn.setOnClickListener(this);
+
+
 
         //MainActivity 첫 호출 시 default로 띄어주는 Fragment
         callFragment(DEFAULT_FRAG);
@@ -132,6 +142,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
         slotRef.addValueEventListener(listener);
 
+        userNameTv = findViewById(R.id.main_chef_nameTV);
+        dateTV = findViewById(R.id.main_dateTV);
+
+        userNameTv.setText(Restaurant.getInstance().getOwnerName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = new Date();
+        String dateStr = sdf.format(today);
+        dateTV.setText(dateStr);
     }
 
     @Override

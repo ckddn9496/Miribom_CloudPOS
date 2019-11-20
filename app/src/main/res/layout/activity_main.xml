@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!-- 화면 상단에 음식점 정보들이 들어가는 파트 -->
+    <LinearLayout
+        android:id="@+id/infoLayout"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/restName"
+            android:text="미리봄 테스트 식당"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!-- 테이블 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/belowLayout"
+        android:weightSum="10"
+        android:layout_weight="9"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        >
+
+        <FrameLayout
+            android:background="@drawable/edge"
+            android:id="@+id/fragment_container"
+            android:layout_weight="9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+
+        <!-- 테이블 배치도 옆에 있는 탭 리스트 -->
+        <LinearLayout
+            android:id="@+id/tabLayout"
+            android:layout_weight="1"
+            android:weightSum="5"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+
+            <!-- 시작 화면 -->
+            <Button
+                android:id="@+id/tab0_default_btn"
+                android:text="시작 화면"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 메뉴 관리 버튼 -->
+            <Button
+                android:id="@+id/tab1_menu_btn"
+                android:text="메뉴 관리"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 영수증 관리 버튼 -->
+            <Button
+                android:id="@+id/tab2_receipt_btn"
+                android:text="영수증 관리"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 예약 관리 버튼 -->
+            <Button
+                android:id="@+id/tab3_reservation_btn"
+                android:text="예약 관리"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 간단 정산 버튼 -->
+            <Button
+                android:id="@+id/tab4_calculate_btn"
+                android:text="간단 정산"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+
+
+</LinearLayout>

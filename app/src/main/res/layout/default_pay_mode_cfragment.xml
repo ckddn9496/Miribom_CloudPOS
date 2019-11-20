@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:weightSum="5"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <TextView
+            android:id="@+id/def_pay_tableNo"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="1번 테이블"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <GridView
+            android:id="@+id/def_pay_menuGridView"
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"></GridView>
+        
+        <LinearLayout
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <Button
+            android:id="@+id/def_pay_cashPayBtn"
+            android:text="현금 결제"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/def_pay_cardPayBtn"
+                android:text="카드 결제"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/def_pay_combPayBtn"
+                android:text="분할 결제"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+    
+</LinearLayout>

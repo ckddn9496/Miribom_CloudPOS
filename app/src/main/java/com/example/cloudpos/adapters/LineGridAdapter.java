@@ -72,7 +72,7 @@ public class LineGridAdapter extends BaseAdapter {
     private String calcWaitingTime(String starter) throws ParseException {
         String waitingTime;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMddHHmm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
         Date startDay = new Date();
         Date now = new Date();
 

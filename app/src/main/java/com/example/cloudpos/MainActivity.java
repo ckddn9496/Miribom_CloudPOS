@@ -3,6 +3,7 @@ package com.example.cloudpos;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.cloudpos.data.LineQueue;
 import com.example.cloudpos.data.MenuItem;
 import com.example.cloudpos.data.MenuList;
 import com.example.cloudpos.data.Restaurant;
+import com.example.cloudpos.data.Slot;
 import com.example.cloudpos.data.Table;
 import com.example.cloudpos.data.TableList;
 import com.example.cloudpos.fragments.FragmentCalculate;
@@ -20,6 +23,17 @@ import com.example.cloudpos.fragments.FragmentDefault;
 import com.example.cloudpos.fragments.FragmentMenu;
 import com.example.cloudpos.fragments.FragmentReceipt;
 import com.example.cloudpos.fragments.FragmentReservation;
+import com.example.cloudpos.fragments.FragmentWaiting;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.PriorityQueue;
 
 
 //implemented by Yang Insu
@@ -42,7 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /*받아오는 데이터들*/
     MenuList menuList = MenuList.getInstance(); //메뉴 리스트
+    PriorityQueue line = LineQueue.getInstance().linePQueue;
 
+    /*Firebase References*/
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference slotRef = database.getReference("server/restaurants/test");
+    List arrayList = new ArrayList();
+    HashMap input = new HashMap();
+    private int accessCounter = 0;
 
 
     @Override
@@ -98,6 +119,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*Firebase 서버에서 대기 리스트 받아오기*/
         // TODO: LineQueue 받아오기
 
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Get Post object 받아옴
+                accessCounter++;
+                arrayList = (List)dataSnapshot.getValue();
+                if(arrayList!=null){
+
+                    if(accessCounter == 1){ //처음 들어온거면
+                        //줄 전체 받아오기
+                        for(int i = 1; i < arrayList.size(); i++){
+                            input = (HashMap)arrayList.get(i);
+                            Object no = input.get("no");
+                            Object personCount = input.get("personCount");
+                            Object phoneNo = input.get("phoneNo");
+                            Object time = input.get("time");
+
+                            Slot newSlot = new Slot(no,personCount,phoneNo,time);
+                            LineQueue.getInstance().linePQueue.add(newSlot);
+                            LineQueue.getInstance().line.add(newSlot);
+
+
+                        }
+                    }else{
+                        //마지막 슬롯만 넣기
+                        input = (HashMap)arrayList.get(arrayList.size());
+                        Object no = input.get("no");
+                        Object personCount = input.get("personCount");
+                        Object phoneNo = input.get("phoneNo");
+                        Object time = input.get("time");
+
+                        Slot newSlot = new Slot(no,personCount,phoneNo,time);
+                        LineQueue.getInstance().linePQueue.add(newSlot);
+                        LineQueue.getInstance().line.add(newSlot);
+                        Toast.makeText(MainActivity.this, String.valueOf(newSlot.getPhoneNo()), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        slotRef.addValueEventListener(listener);
 
     }
 
@@ -158,8 +226,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction.commit();
                 break;
             case 3: //예약 관리 화면
-                FragmentReservation fragmentReservation = new FragmentReservation();
-                transaction.replace(R.id.fragment_container, fragmentReservation);
+                FragmentWaiting fragmentWaiting = new FragmentWaiting();
+                transaction.replace(R.id.fragment_container, fragmentWaiting);
 //                transaction.addToBackStack(null);
                 transaction.commit();
                 break;

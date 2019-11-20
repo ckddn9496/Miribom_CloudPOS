@@ -2,8 +2,9 @@ package com.example.cloudpos.child_fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,7 +24,10 @@ import com.example.cloudpos.data.ReceiptLine;
 import com.example.cloudpos.data.ReceiptList;
 import com.example.cloudpos.fragments.FragmentDefault;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /*implemented by Yang Insu*/
@@ -72,18 +76,25 @@ public class Cfragment_default_pay extends Fragment implements View.OnClickListe
     private int tableNo;
 
 
+
+
+
     /*Receipt Line 리스트*/
     ListView recLineListView;
     RecLineListViewAdapter recLineListViewAdapter;
 
 
-    public static Cfragment_default_pay newInstance() {
+
+
+
+
+    public static Cfragment_default_pay newInstance(){
         return new Cfragment_default_pay();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fv = inflater.inflate(R.layout.default_pay_cfragment, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View fv = inflater.inflate(R.layout.default_pay_cfragment,container,false);
 
         popRightScreen(fv); //오른쪽 화면 처음에 띄어주기
 
@@ -103,6 +114,7 @@ public class Cfragment_default_pay extends Fragment implements View.OnClickListe
         menuItemClickHandler();
 
 
+
         return fv;
     }
 
@@ -110,16 +122,16 @@ public class Cfragment_default_pay extends Fragment implements View.OnClickListe
         menuGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MenuItem temp = (MenuItem) menuGridAdapter.getItem(position);
+                MenuItem temp = (MenuItem)menuGridAdapter.getItem(position);
                 Toast.makeText(getContext(), temp.getMenuName(), Toast.LENGTH_SHORT).show();
-                ReceiptLine newReceiptLine = new ReceiptLine(temp, 1);
+                ReceiptLine newReceiptLine = new ReceiptLine(temp,1);
                 recLineListViewAdapter.addRecLine(newReceiptLine);
                 recLineListViewAdapter.notifyDataSetChanged();
             }
         });
     }
 
-    void popRightScreen(View fv) {
+    void popRightScreen(View fv){
         //View Component 연결
         menuGridView = fv.findViewById(R.id.def_pay_menuGridView);
         tableNoTV = fv.findViewById(R.id.def_pay_tableNo);
@@ -134,7 +146,7 @@ public class Cfragment_default_pay extends Fragment implements View.OnClickListe
 
     }
 
-    void linkCalc(View view) {
+    void linkCalc(View view){
         btn1 = view.findViewById(R.id.calc_1_btn);
         btn2 = view.findViewById(R.id.calc_2_btn);
         btn3 = view.findViewById(R.id.calc_3_btn);
@@ -166,6 +178,20 @@ public class Cfragment_default_pay extends Fragment implements View.OnClickListe
     }
 
 
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.def_pay_inc:
+                break;
+            case R.id.calc_enter_btn:
+                createReceipt();
+                Toast.makeText(getContext(), "영수증 추가", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+    }
+
     void createReceipt() { //여기서 영수증 생성함
         // TODO: 서버로 넘길때 newReceipt를 넘기면 됨 comment by Insu
         //  => 계산이 완료되면 Table이 보이는 Default화면으로 돌아가기 가능?
@@ -177,19 +203,6 @@ public class Cfragment_default_pay extends Fragment implements View.OnClickListe
 
         InsertReceiptTask insertReceiptTask = new InsertReceiptTask(newReceipt, getContext());
         insertReceiptTask.execute();
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.def_pay_inc:
-                break;
-            case R.id.calc_enter_btn:
-                createReceipt();
-                Toast.makeText(getContext(), "영수증 추가", Toast.LENGTH_SHORT).show();
-                break;
-        }
 
     }
 
